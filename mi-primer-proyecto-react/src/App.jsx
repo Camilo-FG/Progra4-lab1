@@ -3,6 +3,8 @@
 import './App.css'
 import SaludoAlex from './Components/SaludoAlex'
 import SaludoKeril from './Components/SaludoKeril '
+import SaludoDaniel from './Components/SaludoDaniel '
+import SaludoAndrey from './Components/SaludoAndrey '
 function App() {
 
 
@@ -10,6 +12,8 @@ function App() {
     <>
        <SaludoKeril />
       <SaludoAlex />
+      <SaludoDaniel />
+      <SaludoAndrey />
     </>
   )
 }
