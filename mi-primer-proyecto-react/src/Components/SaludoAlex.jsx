@@ -1,8 +1,8 @@
 
 import './SaludoAlex.css'
 
-export default function SaludoAlex() {
-    const name = 'Alex'
+export default function SaludoElian() {
+    const name = 'Elian'
     return (
         <section className='container'>
             <section className='saludo'>
@@ -11,6 +11,6 @@ export default function SaludoAlex() {
                     Aquí hay un mensaje adicional!
                 </p>
             </section>
-        </section >
+        </section>
     )
 }

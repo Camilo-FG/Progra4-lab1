@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import './SaludoAlex.css'
 
-export default function SaludoAlex() {
+export default function SaludoKeril() {
     const [name, setName] = useState('Keril')
     return (
         <section className='container'>
@@ -12,6 +12,6 @@ export default function SaludoAlex() {
                     Aquí hay un mensaje adicional!
                 </p>
             </section>
-        </section >
+        </section>
     )
 }

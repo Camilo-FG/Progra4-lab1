@@ -1,19 +1,23 @@
 
 
 import './App.css'
-import SaludoAlex from './Components/SaludoAlex'
-import SaludoKeril from './Components/SaludoKeril '
-import SaludoDaniel from './Components/SaludoDaniel '
-import SaludoAndrey from './Components/SaludoAndrey '
+import SaludoElian from './Components/SaludoAlex'
+import SaludoAndrey from './Components/SaludoAndrey'
+import SaludoDaniel from './Components/SaludoDaniel'
+import SaludoKeril from './Components/SaludoKeril'
+
+
+
 function App() {
 
 
   return (
     <>
-       <SaludoKeril />
-      <SaludoAlex />
+
+      <SaludoElian />
       <SaludoDaniel />
       <SaludoAndrey />
+      <SaludoKeril />
     </>
   )
 }
