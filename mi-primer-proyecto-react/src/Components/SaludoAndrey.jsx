@@ -2,8 +2,8 @@
 import { useState } from 'react'
 import './SaludoAlex.css'
 
-export default function SaludoAlex() {
-    const [name, setName] = useState('Keril')
+export default function SaludoAndrey() {
+    const [name, setName] = useState('Andrey')
     return (
         <section className='container'>
             <section className='saludo'>
@@ -12,6 +12,6 @@ export default function SaludoAlex() {
                     Aquí hay un mensaje adicional!
                 </p>
             </section>
-        </section >
+        </section>
     )
 }
