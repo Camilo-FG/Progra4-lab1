@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import QuestionCard from "./QuestionCard";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 export default function QuizComponent() {
+    const { width, height } = useWindowSize();
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -61,6 +64,16 @@ export default function QuizComponent() {
 
     return (
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center ">
+            {showFeedback && selectedAnswer === questions[currentQuestion].answer && (
+                <Confetti
+                    width={width}
+                    height={height}
+                    recycle={false}
+                    numberOfPieces={220}
+                    gravity={0.2}
+                    style={{ zIndex: 20, pointerEvents: "none" }}
+                />
+            )}
             <div className="text-center mb-8">
                 <h1 className="text-4xl font-bold text-purple-600 mb-2 ">Game quiz</h1>
                 <p className="text-gray-400">Adivina el juego</p>
