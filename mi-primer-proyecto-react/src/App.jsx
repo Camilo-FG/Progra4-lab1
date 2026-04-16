@@ -1,6 +1,7 @@
 
 
 import './App.css'
+import BuscarPokemon from './Components/BuscarPokemon'
 import SaludoElian from './Components/SaludoAlex'
 import SaludoAndrey from './Components/SaludoAndrey'
 import SaludoDaniel from './Components/SaludoDaniel'
@@ -18,6 +19,7 @@ function App() {
       <SaludoDaniel />
       <SaludoAndrey />
       <SaludoKeril />
+      <BuscarPokemon />
     </>
   )
 }
