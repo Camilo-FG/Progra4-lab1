@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import QuestionCard from "./QuestionCard";
-
+import Confetti from "react-confetti";
 export default function QuizComponent() {
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -61,6 +61,9 @@ export default function QuizComponent() {
 
     return (
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center ">
+            {showFeedback && selectedAnswer === questions[currentQuestion].answer && (
+                <Confetti />
+            )}
             <div className="text-center mb-8">
                 <h1 className="text-4xl font-bold text-purple-600 mb-2 ">Game quiz</h1>
                 <p className="text-gray-400">Adivina el juego</p>
