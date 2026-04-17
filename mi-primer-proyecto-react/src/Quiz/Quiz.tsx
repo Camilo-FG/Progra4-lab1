@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { API_URL, X_MASTER_KEY } from "./ApiConfig";
+
 import type { Opcion, Pregunta } from "./pregunta";
 import "./ApiPrueba.css";
 import ReactConfetti from "react-confetti";
+
+const key = import.meta.env;
+const API_URL = key.VITE_API_URL;
+const X_MASTER_KEY = key.VITE_X_MASTER_KEY;
 
 type JsonBinResponse = {
   record?: {
@@ -24,7 +28,7 @@ const ApiPrueba = () => {
   const quizFinalizado = totalPreguntas > 0 && preguntaActualIndex >= totalPreguntas;
   const preguntaActual = !quizFinalizado ? jsonBIN[preguntaActualIndex] : undefined;
 
-       useEffect(() => {
+      useEffect(() => {
     fetch(API_URL, {
       headers: {
         "X-Master-Key": X_MASTER_KEY
