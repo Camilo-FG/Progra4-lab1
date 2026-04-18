@@ -4,9 +4,8 @@ import type { Opcion, Pregunta } from "./pregunta";
 import "./ApiPrueba.css";
 import ReactConfetti from "react-confetti";
 
-const key = import.meta.env;
-const API_URL = key.VITE_API_URL;
-const X_MASTER_KEY = key.VITE_X_MASTER_KEY;
+const API_URL = import.meta.env.VITE_API_URL;
+const X_MASTER_KEY = import.meta.env.VITE_X_MASTER_KEY;
 
 type JsonBinResponse = {
   record?: {
@@ -21,6 +20,7 @@ const ApiPrueba = () => {
   const [incorrecto, setIncorrecto] = useState(0);
   const [preguntasRespondidas, setPreguntasRespondidas] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [preguntaActualIndex, setPreguntaActualIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -28,16 +28,23 @@ const ApiPrueba = () => {
   const quizFinalizado = totalPreguntas > 0 && preguntaActualIndex >= totalPreguntas;
   const preguntaActual = !quizFinalizado ? jsonBIN[preguntaActualIndex] : undefined;
 
-      useEffect(() => {
+  useEffect(() => {
     fetch(API_URL, {
       headers: {
-        "X-Master-Key": X_MASTER_KEY
-      }
+        "X-Master-Key": X_MASTER_KEY,
+      },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`JSONBin respondió con ${response.status}`);
+        }
+
+        return response.json();
+      })
       .then((data) => {
         const preguntas = (data as JsonBinResponse)?.record?.preguntas;
         setJsonBIN(Array.isArray(preguntas) ? preguntas : []);
+        setError(null);
         setIsLoading(false);
       })
       .catch(() => {
@@ -70,6 +77,7 @@ const ApiPrueba = () => {
 {isLoading && (
           <h2>Cargando preguntas...</h2>  
             )}
+      {error && <p>{error}</p>}
           <br />
           {!quizFinalizado && preguntaActual && (
             <section className="container">
