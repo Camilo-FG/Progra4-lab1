@@ -1,15 +1,15 @@
 import { createRootRoute,createRoute,createRouter,Link,Outlet } from "@tanstack/react-router"
 import  Quiz from "./Quiz/Quiz"
-
+import saludoKeril from "./Components/SaludoKeril "
 
 const Root = createRootRoute({
 component: function RootLayout(){
     return (
         <>
         <nav>
-            <Link to="/">Home</Link>
+            <Link to="/">saludo</Link>
             <br />
-            <Link to="/Cuestonario">Cuestionario</Link>
+            <Link to="/Cuestionario">Cuestionario</Link>
         </nav>
 
         <section id="center">
@@ -22,10 +22,15 @@ component: function RootLayout(){
 
 const CuestionarioPage = createRoute({
     getParentRoute: () => Root,
-    path: "/Cuestonario",
+    path: "/Cuestionario",
     component: Quiz,
 })
 
-const routeTree = Root.addChildren([CuestionarioPage])
+const saludoPage = createRoute({
+    getParentRoute: () => Root,
+    path: "/",
+    component: saludoKeril,
+})
+const routeTree = Root.addChildren([CuestionarioPage, saludoPage])
 
 export const router = createRouter({routeTree})
