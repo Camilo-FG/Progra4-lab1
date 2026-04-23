@@ -1,8 +1,8 @@
 
 
-import './App.css'
+
 import BuscarPokemon from './Components/BuscarPokemon'
-import SaludoElian from './Components/SaludoAlex'
+import SaludoElian from './Components/SaludoElian.jsx'
 import SaludoAndrey from './Components/SaludoAndrey'
 import SaludoDaniel from './Components/SaludoDaniel'
 import SaludoKeril from './Components/SaludoKeril'

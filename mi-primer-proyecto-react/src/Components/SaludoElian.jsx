@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function SaludoAlex() {
+export default function SaludoElian() {
     //1. Declaramos estados
     const [phrase, setPhrase] = useState([]);
     const [randomNumber, setRandomNumber] = useState(0);

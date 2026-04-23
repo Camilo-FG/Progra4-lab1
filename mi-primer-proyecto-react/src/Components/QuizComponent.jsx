@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import QuestionCard from "./QuestionCard";
-import Confetti from "react-confetti";
+// import Confetti from "react-confetti";
 export default function QuizComponent() {
     const [questions, setQuestions] = useState([]);
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -11,10 +11,14 @@ export default function QuizComponent() {
     const [showFeedback, setShowFeedback] = useState(false);
 
     // cargar desde JSONBin
+    const key = import.meta.env.VITE_JSONBIN_MASTER_KEY;
+
     useEffect(() => {
+
+
         const fetchQuiz = async () => {
             const headers = new Headers();
-            headers.append("X-Access-Key", "$2a$10$epUzY0eoMIHYR8UH7rcpCeUnC3HRa15YwuusrHWKKsvjkaf5xGiLi");
+            headers.append("X-Access-Key", key);
             try {
 
                 const response = await fetch("https://api.jsonbin.io/v3/b/69dd6a83856a6821892e43e7", { headers });
@@ -61,9 +65,9 @@ export default function QuizComponent() {
 
     return (
         <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center ">
-            {showFeedback && selectedAnswer === questions[currentQuestion].answer && (
+            {/* {showFeedback && selectedAnswer === questions[currentQuestion].answer && (
                 <Confetti />
-            )}
+            )} */}
             <div className="text-center mb-8">
                 <h1 className="text-4xl font-bold text-purple-600 mb-2 ">Game quiz</h1>
                 <p className="text-gray-400">Adivina el juego</p>
