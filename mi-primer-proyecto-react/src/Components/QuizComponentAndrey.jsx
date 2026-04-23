@@ -24,7 +24,14 @@ export default function QuizComponentAndrey(){
     useEffect(() => {
         const fetchQuizData = async () => {
             const headers = new Headers();
-            headers.append('X-Master-Key', '$2a$10$W57Wigcyb0dXIGr.2ob3DeaBYZVuZQwbJzaK.27QU9QeONdq.e1BC');
+            // headers.append('X-Master-Key', '$2a$10$W57Wigcyb0dXIGr.2ob3DeaBYZVuZQwbJzaK.27QU9QeONdq.e1BC');
+             const key = import.meta.env.VITE_JSONBIN_ACCESS_KEY;
+             console.log("Key:", key);
+             if (!key) {
+                 console.error('Access key no encontrada en las variables de entorno');
+                 return;
+             }
+             headers.append('X-Access-Key', key);
             try {
                 const response = await fetch('https://api.jsonbin.io/v3/b/69e0586036566621a8bb06fe', { headers });
                 const data = await response.json();
@@ -43,8 +50,8 @@ export default function QuizComponentAndrey(){
             {showConfetti && <Comfetti />}
             <div className="quiz-container">
                 <h2>QuizComponent</h2>
-                <p>{preguntas[currentQuestion]?.question}</p>
-                <div className="quiz-options">{preguntas[currentQuestion]?.answers.map((option, index) => {
+                <p>{preguntas[currentQuestion]?.question || 'Cargando pregunta...'}</p>
+                <div className="quiz-options">{preguntas[currentQuestion]?.answers?.map((option, index) => {
                     let buttonClass = '';
                     if (selectedAnswer !== null) {
                         if (index === preguntas[currentQuestion]?.correctAnswer) {
@@ -54,7 +61,7 @@ export default function QuizComponentAndrey(){
                         }
                     }
                     return <button key={index} className={buttonClass} onClick={()=>handleAnswerClick(index)}>{option}</button>
-                })}</div>
+                }) || <p>Cargando opciones...</p>}</div>
             </div>
         </>
     )

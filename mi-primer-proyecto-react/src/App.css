@@ -258,6 +258,14 @@ button:focus-visible {
   background-color: #ef4444;
 }
 
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+}
+
 .quiz-options button.incorrect:hover {
   background-color: #dc2626;
 }

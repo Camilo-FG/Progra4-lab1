@@ -1,10 +1,10 @@
 .container {
-    width: 90vw;
-    height: 90vh;
+    width: min(90vw, 600px);
+    min-height: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
-
+    margin: 0 auto;
 }
 
 .saludo {
