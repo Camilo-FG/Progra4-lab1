@@ -4,49 +4,118 @@ import Confetti from 'react-confetti';
 export default function QuizComponent() {
 
     const [preguntas, setPreguntas] = useState([]);
-    const [showConfetti, setShowConfetti] = useState(false);
+    const [actual, setActual] = useState(0);
+    const [confeti, setConfeti] = useState(false);
+    const [resultado, setResultado] = useState(null);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState(null);
 
     const handleAnswerClick = (index) => {
-    if (preguntas[0].correctAnswer === index) {
-      setShowConfetti(true);
+        if (resultado !== null) return; // evita cambiar respuesta ya seleccionada
 
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 10000);
-    }
-  }
- 
+        setResultado(index);
+
+        if (preguntas[actual].correctAnswer === index) {
+            setConfeti(true);
+            setTimeout(() => setConfeti(false), 10000);
+        }
+    };
+
+    const handleNext = () => {
+        if (actual < preguntas.length - 1) {
+            setActual(actual + 1);
+            setResultado(null);
+        }
+    };
+
     useEffect(() => {
         const fetchQuiz = async () => {
-            const headers = new Headers(); //se crea un obj Header para añadir la credencial de acceso "secret"
-            headers.append("X-Master-Key", "$2a$10$7mhbjKDIvNhb0DNToVgyjOqc0tU/ucm1qyhX0lnCxJVJisK1s4NQO"); //esta clave se pone aqui solo para efectos del ejemplo, pero JAMÁS se debe de hacer por temas de seguridad 
+            const key = import.meta.env.VITE_JSONBIN_ACCESS_KEY;
+            if (!key) {
+                console.error("Access key is not defined");
+                setError("No se encontró la clave de acceso.");
+                setCargando(false);
+                return;
+            }
+
+            const headers = new Headers();
+            headers.append("X-Access-Key", key);
 
             try {
-                const response = await fetch("https://api.jsonbin.io/v3/b/69e05287856a6821893bf7e8", { headers });
+                const response = await fetch("https://api.jsonbin.io/v3/b/69ea3e30aaba8821972d9f5c", { headers });
                 const data = await response.json();
-                setPreguntas(data.record);
-            } catch (error) {
-                console.log("Error fetching quiz data", error);
+
+                if (Array.isArray(data.record)) {
+                    setPreguntas(data.record);
+                } else {
+                    setError("El formato del API no es válido.");
+                }
+            } catch (err) {
+                console.error("Error fetching quiz data", err);
+                setError("Error al conectar con el API.");
+            } finally {
+                setCargando(false);
             }
-        }
+        };
 
         fetchQuiz();
-    }, []); 
-    
-    return(
+    }, []);
+
+    if (cargando) return <p className="estado">Cargando preguntas...</p>;
+    if (error) return <p className="estado error">{error}</p>;
+    if (!preguntas.length) return <p className="estado">No hay preguntas disponibles.</p>;
+
+    const preguntaActual = preguntas[actual];
+
+    return (
         <>
-        {showConfetti && <Confetti />}
+            {confeti && <Confetti />}
 
-        <div>
-            <h2>Quiz Component</h2>
-            <p>{preguntas[0]?.question}</p>
+            <div className="quiz-container">
+                <div className="quiz-header">
+                    <h2 className="quiz-titulo">Quiz</h2>
+                    <span className="quiz-progreso">
+                        Pregunta {actual + 1} de {preguntas.length}
+                    </span>
+                </div>
 
-            <div>
-                {preguntas[0]?.answers.map((option, index) => (
-                    <button key={index} onClick={() => handleAnswerClick(index)}>{option}</button>
-                ))}
+                <div className="quiz-card">
+                    <p className="quiz-pregunta">{preguntaActual.question}</p>
+
+                    <div className="quiz-opciones">
+                        {preguntaActual.answers.map((opcion, index) => {
+                            let className = "quiz-btn";
+
+                            if (resultado !== null) {
+                                if (index === preguntaActual.correctAnswer) {
+                                    className += " correct";
+                                } else if (index === resultado) {
+                                    className += " incorrect";
+                                }
+                            }
+
+                            return (
+                                <button
+                                    key={index}
+                                    className={className}
+                                    onClick={() => handleAnswerClick(index)}
+                                    disabled={resultado !== null}
+                                >
+                                    {opcion}
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    <button
+                        className="quiz-siguiente"
+                        onClick={handleNext}
+                        disabled={resultado === null || actual === preguntas.length - 1}
+                    >
+                        Siguiente →
+                    </button>
+                </div>
             </div>
-        </div>
         </>
-    )
+    );
 }
